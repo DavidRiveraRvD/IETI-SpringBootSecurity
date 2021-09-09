@@ -11,16 +11,20 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 @EnableGlobalMethodSecurity( securedEnabled = true, jsr250Enabled = true, prePostEnabled = true )
 
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+    JwtRequestFilter jwtRequestFilter;
+
+    public SecurityConfiguration(@Autowired JwtRequestFilter jwtRequestFilter) {
+        this.jwtRequestFilter = jwtRequestFilter;
+    }
+
     @Override
-    protected void configure( HttpSecurity http )
-            throws Exception
-    {
-        http.authorizeRequests()
-                .cors().and().csrf().disable()
-                .antMatchers( HttpMethod.GET, "/v1/health" ).permitAll()
-                .antMatchers( HttpMethod.POST,"/v1/auth" ).permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS );
+    protected void configure(HttpSecurity http) throws Exception {
+        http.addFilterBefore(jwtRequestFilter, BasicAuthenticationFilter.class).cors().and().csrf().disable()
+                .authorizeRequests()
+                .antMatchers(HttpMethod.GET, "/v1/health").permitAll()
+                .antMatchers(HttpMethod.POST, "/v1/auth").permitAll()
+                .anyRequest().authenticated().and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 }

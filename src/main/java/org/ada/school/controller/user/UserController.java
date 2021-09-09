@@ -17,6 +17,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping( "/v1/user" )
+@RestController
+@RequestMapping( "/v1/user" )
 public class UserController
 {
 
@@ -54,6 +56,7 @@ public class UserController
     }
 
     @DeleteMapping( "/{id}" )
+    @RolesAllowed("ADMIN")
     public ResponseEntity<Boolean> delete( @PathVariable String id )
     {
         return ResponseEntity.ok( userService.deleteById( id ) );
