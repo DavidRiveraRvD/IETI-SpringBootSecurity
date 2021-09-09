@@ -3,6 +3,7 @@ package org.ada.school.controller.auth;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.ada.school.error.InvalidCredentialsException;
 import org.ada.school.exception.InvalidCredentialsException;
 import org.ada.school.repository.document.User;
 import org.ada.school.service.UserService;

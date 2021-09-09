@@ -1,5 +1,7 @@
 package org.ada.school.controller.auth;
 
+import java.util.Date;
+
 public class TokenDto {
 
     String token;
